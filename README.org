@@ -1,0 +1,55 @@
+#+title: Verilog2HSpice: Convert two formats with some basic rules
+
+This little snippet is a simple developer tools I developed for a benchmark
+conversion task done in the company.
+
+DISCLAIMER: I have no idea what is HSpice or Verilog. I simply did the
+conversions I was told. Just thought it may be useful for others to take a peek
+at so I'm publishing it here.
+
+Main conversions of the program:
+
+** Convert ORs
+
+#+begin_src verilog
+assign x = a | b;
+// gets converted to:
+//      /---- this number increases for each operation
+//      v
+OR2 OR_1 (x, a, b);
+// OR (based on the options of the program)
+OR2 OR_1 (x, a, b, WE, RE, CK); // some benchmarks may need these flags
+#+end_src
+
+** Convert ANDs
+
+#+begin_src verilog
+assign x = a & b;
+// gets converted to:
+//      /---- this number increases for each operation
+//      v
+AN2 AND_1 (x, a, b);
+// OR (based on the options of the program)
+AN2 AND_1 (x, a, b, WE, RE, CK); // some benchmarks may need these flags
+#+end_src
+
+** Convert NOTs
+
+#+begin_src verilog
+some code (~x);
+// First, this needs to have a definition like below:
+//      /---- this number increases for each operation
+//      v
+IV INVL_1 (Nx, x);
+// Then adds the usecase:
+some code (Nx);
+#+end_src
+
+* Running
+
+In some Windows machines, the program won't run on debug mode. Run using the
+command below:
+
+#+begin_src shell
+cargo build --release
+#+end_src

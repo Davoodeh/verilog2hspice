@@ -1,0 +1,13 @@
+[package]
+name = "verilog2hspice"
+version = "0.1.0"
+authors = ["M. Yas. Davoodeh <MYDavoodeh@gmail.com>"]
+edition = "2021"
+rust-version = "1.65"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+egui_file = "0.5"
+eframe = "0.20"
+egui = "0.20"
